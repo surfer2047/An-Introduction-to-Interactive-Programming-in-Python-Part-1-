@@ -71,7 +71,7 @@ f.add_button("Range is [0,1000)", range1000, 200)
 
 # call new_game 
 new_game()
-
+f.start()
 
 # always remember to check your completed program against the grading rubric
 
