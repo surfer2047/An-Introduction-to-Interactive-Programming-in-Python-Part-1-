@@ -8,7 +8,7 @@ import math
 import random
 
 secret_number = 0
-count = 7
+count = 0
 
 # helper function to start and restart the game
 def new_game():
@@ -17,6 +17,7 @@ def new_game():
     print "New game, range is from 0 to 100"
     global secret_number
     global count 
+    count = 7
     secret_number = random.randrange(0,100)
     
 # define event handlers for control panel
@@ -57,7 +58,7 @@ def input_guess(guess):
             print "Higher!"
         else:
             print "Correct!"
-    count = count - 1
+    	count = count - 1
     print " "
 
 # create frame
