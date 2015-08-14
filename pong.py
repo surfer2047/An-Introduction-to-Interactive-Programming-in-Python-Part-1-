@@ -4,6 +4,8 @@
 #Run this game in code skulptor
 # Implementation of classic arcade game Pong
 
+# Implementation of classic arcade game Pong
+
 import simplegui
 import random
 
@@ -22,7 +24,7 @@ paddel2_pos =  HEIGHT/2
 paddel1_vel = 0
 paddel2_vel = 0
 ball_pos = [WIDTH/2, HEIGHT/2] #place ball at the center of the position
-ball_vel = [0, 0] #store horizontal velocity and vertical velocity
+ball_vel = [-40.0 / 60.0,  5.0 / 60.0] #store horizontal velocity and vertical velocity
 score1 = 0
 score2 = 0
 
@@ -31,26 +33,27 @@ score2 = 0
 # if direction is RIGHT, the ball's velocity is upper right, else upper left
 
 def spawn_ball(direction):
-    global ball_pos, ball_vel       # these are vectors stored as lists
-    ball_pos = [WIDTH/2, HEIGHT/2]
+    global ball_pos, ball_vel       # these are vectors stored as lists  
     
     #horizontal velocity pixel per sec 
-    ball_vel[0] = random.randrange(120, 240)
-    print ball_vel[0],
-    print ball_vel[1]
-    #vertical velocity
-    ball_vel[1] = random.randrange(60, 180)
+    ball_vel[0] = random.randrange(120, 240) / 60.0
+   
+    #vertical velocity pixel per sec
+    ball_vel[1] = random.randrange(60, 180) / 60.0
+    
+    #draw ball with change in velocity
+    ball_pos[0] += ball_vel[0]
+    ball_pos[1] += ball_vel[1]
                 
-    if direction :				    # If direction == "Right"
-        ball_pos[0] += ball_vel[0]  # make ball move  right
-        ball_pos[0] += 2
-        ball_pos[1] -= ball_vel[1]  # make ball move upward
-    else: 						    # if the direction is left 
-        ball_pos[0] -= ball_vel[0]  # make ball move left
-        ball_pos[1] -= ball_vel[1]  # make ball move upward
+    #if direction == RIGHT :				    # If direction == "Right"
+        #ball_pos[0] += ball_vel[0]  # make ball move  right
+        #ball_pos[0] += 2
+        #ball_pos[1] -= ball_vel[1]  # make ball move upward
+    #else: 						    # if the direction is left 
+        #ball_pos[0] -= ball_vel[0]  # make ball move left
+        #ball_pos[1] -= ball_vel[1]  # make ball move upward
         
   
-    
 
 
 # define event handlers
@@ -75,6 +78,7 @@ def draw(canvas):
     canvas.draw_line([WIDTH - PAD_WIDTH, 0],[WIDTH - PAD_WIDTH, HEIGHT], 1, "White")
         
     # update ball
+    spawn_ball(RIGHT)
     
     
             
@@ -96,7 +100,7 @@ def draw(canvas):
     
     #stop paddel 2 when reaches to the corner of the canvas
     
-    if paddel2_pos <= 40:
+    if paddel2_pos <= 40: #End of the corner is equal to ( 0 + 
         paddel2_vel = 0
         paddel2_pos = 40
     if paddel2_pos >= 360:
