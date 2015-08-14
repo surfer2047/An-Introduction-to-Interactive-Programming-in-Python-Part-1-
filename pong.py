@@ -3,6 +3,8 @@
 #Description: Coursera Implementation of PONG Game
 #Run this game in code skulptor
 # Implementation of classic arcade game Pong
+#URL: http://www.codeskulptor.org/#user40_482KSI88gp752jN.py
+# Implementation of classic arcade game Pong
 
 # Implementation of classic arcade game Pong
 
@@ -24,7 +26,8 @@ paddel2_pos =  HEIGHT/2
 paddel1_vel = 0
 paddel2_vel = 0
 ball_pos = [WIDTH/2, HEIGHT/2] #place ball at the center of the position
-ball_vel = [-40.0 / 60.0,  5.0 / 60.0] #store horizontal velocity and vertical velocity
+#store horizontal velocity and vertical velocity
+ball_vel = [0, 0]
 score1 = 0
 score2 = 0
 
@@ -36,24 +39,21 @@ def spawn_ball(direction):
     global ball_pos, ball_vel       # these are vectors stored as lists  
     
     #horizontal velocity pixel per sec 
-    ball_vel[0] = random.randrange(120, 240) / 60.0
+    #ball_vel[0] = random.randrange(120, 240) / 60.0
    
     #vertical velocity pixel per sec
-    ball_vel[1] = random.randrange(60, 180) / 60.0
+    #ball_vel[1] = random.randrange(60, 180) / 60.0
     
     #draw ball with change in velocity
-    ball_pos[0] += ball_vel[0]
-    ball_pos[1] += ball_vel[1]
-                
-    #if direction == RIGHT :				    # If direction == "Right"
-        #ball_pos[0] += ball_vel[0]  # make ball move  right
-        #ball_pos[0] += 2
-        #ball_pos[1] -= ball_vel[1]  # make ball move upward
-    #else: 						    # if the direction is left 
-        #ball_pos[0] -= ball_vel[0]  # make ball move left
-        #ball_pos[1] -= ball_vel[1]  # make ball move upward
-        
-  
+   
+    if direction: # if the ball is at left side, reverse it  and push upward     
+        ball_vel[0] = random.randrange (120, 240) / 60.0
+        ball_vel[1] = random.randrange (60, 120) / 60.0
+    else: #if the ball is at right side reverse it and push upward
+        ball_vel[0] = -random.randrange (120, 240) / 60.0
+        ball_vel[1] = -random.randrange (60, 120) / 60.0
+    
+    
 
 
 # define event handlers
@@ -78,8 +78,35 @@ def draw(canvas):
     canvas.draw_line([WIDTH - PAD_WIDTH, 0],[WIDTH - PAD_WIDTH, HEIGHT], 1, "White")
         
     # update ball
-    spawn_ball(RIGHT)
     
+     #check for the paddel strike
+    
+    #check for the ball collision with gutter
+    
+    if ball_pos[0] <= BALL_RADIUS: #If collide in left push right
+        spawn_ball(RIGHT)
+        
+    
+    if ball_pos[0] >= WIDTH - BALL_RADIUS: # if the ball collide to right side, push to left
+        spawn_ball(LEFT)
+     
+    if ball_pos[1] <= BALL_RADIUS:
+         ball_vel[1] = -ball_vel[1] #move the ball downwards
+    
+    
+    if ball_pos[1] >= HEIGHT - BALL_RADIUS:
+        ball_vel[1] = -ball_vel[1] # move the ball upwards
+      
+    #check for the paddel strike
+    
+    
+     # update ball position
+    ball_pos[0] += ball_vel[0]
+    ball_pos[1] += ball_vel[1]
+    
+    #check for the ball collision with paddel
+    
+   
     
             
     # draw ball
@@ -135,8 +162,7 @@ def keydown(key):
         paddel2_vel += -5
     if key == simplegui.KEY_MAP['down']:
         paddel2_vel += 5
-    else:
-        pass
+   
     
      
     
@@ -148,14 +174,14 @@ def keyup(key):
    
     # w and s control the vertical velocity of paddel 1, LEFT PADDEl
     if key == simplegui.KEY_MAP['w']:
-        paddel1_vel = -4
+        paddel1_vel = -1
     if key == simplegui.KEY_MAP['s']:
-        paddel1_vel = 4
+        paddel1_vel = 1
     # uparrow and down arrow control the vertical velocity of paddel 2 RIGHT PADDEL
     if key == simplegui.KEY_MAP['up']:
-        paddel2_vel = -4
+        paddel2_vel = -1
     if key == simplegui.KEY_MAP['down']:
-        paddel2_vel = 4
+        paddel2_vel = 1
     else:
         pass
 
