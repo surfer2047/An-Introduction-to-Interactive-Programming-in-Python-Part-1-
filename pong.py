@@ -3,8 +3,8 @@
 #Description: Coursera Implementation of PONG Game
 #Run this game in code skulptor
 # Implementation of classic arcade game Pong
-#URL: http://www.codeskulptor.org/#user40_3YuOX2sxsRG1We3.py
 # Implementation of classic arcade game Pong
+#URL: http://www.codeskulptor.org/#user40_8Iq7vbEY4yTLxKR.py
 
 # Implementation of classic arcade game Pong
 
