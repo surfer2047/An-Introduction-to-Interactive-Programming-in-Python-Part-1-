@@ -3,7 +3,7 @@
 #Description: Coursera Implementation of PONG Game
 #Run this game in code skulptor
 # Implementation of classic arcade game Pong
-#http://www.codeskulptor.org/#user40_ctOgih6YU2SGeIw.py
+#http://www.codeskulptor.org/#user40_FjVS2gJbJieo7lX.py
 # Implementation of classic arcade game Pong
 
 # Implementation of classic arcade game Pong
@@ -48,18 +48,19 @@ def spawn_ball(direction):
  
 #define event handlers
 def new_game():
-    global paddel1_pos, paddel2_pos, paddel1_vel, paddel2_vel  # these are numbers
+    global paddel1_pos, paddel2_pos, paddel1_vel, paddel2_vel, ball_pos  # these are numbers
     global score1, score2  # these are ints
     paddel1_pos =  HEIGHT/2
     paddel2_pos =  HEIGHT/2
     paddel1_vel = 0
     paddel2_vel = 0
     score1 = 0
-    score2 = 0
-    ball_pos = [WIDTH/2, HEIGHT/2]
+    score2 = 0  
     ball_vel = [0, 0]
-    x = 0
-    y = 0
+    accx = 0
+    accy = 0
+    ball_pos = [WIDTH/2, HEIGHT/2]
+    
 
 def draw(canvas):
     global score1, score2, paddel1_pos, paddel2_pos, ball_pos, ball_vel, paddel1_vel, paddel2_vel, accx, accy
@@ -89,8 +90,9 @@ def draw(canvas):
         else:
             ball_pos = [WIDTH/2, HEIGHT/2] #if touch to gutter reset the ball to center position
             score2 += 1
-            accx -=  abs(ball_vel[0])* 0.10
+            accx -=  abs(ball_vel[0])* 0.10 #decrease the velocity when not strike
             accy -=  abs(ball_vel[1]) * 0.10
+           
             
         spawn_ball(RIGHT) #The ball has been strike to LEFT push it to RIGHT DIRECTION
        
@@ -101,14 +103,16 @@ def draw(canvas):
         if ball_pos[1] >= paddel2_pos - PAD_HEIGHT / 2 and ball_pos[1] < paddel2_pos + PAD_HEIGHT /2:
             #ball_vel[0] += ball_vel[0] * 0.10 #when touch to paddel increase velocity along by 10 %
             #ball_vel[1] += ball_vel[1] * 0.10 #when touch to paddel increase velocity along by 10 %
-            accx +=  abs(ball_vel[0])* 0.10
+            accx +=  abs(ball_vel[0])* 0.10 #decrease the velocity when not strike
             accy += abs(ball_vel[1]) * 0.10
             
         else:
             ball_pos = [WIDTH/2, HEIGHT/2]
             score1 += 1
+            
             accx -=  abs(ball_vel[0])* 0.10
             accy -=  abs(ball_vel[1]) * 0.10
+            
             
         spawn_ball(LEFT)
      
@@ -131,9 +135,9 @@ def draw(canvas):
     if paddel1_pos <= HALF_PAD_HEIGHT:
         paddel1_vel = 0
         paddel1_pos = HALF_PAD_HEIGHT
-    if paddel1_pos >= WIDTH - HALF_PAD_HEIGHT:
+    if paddel1_pos >= HEIGHT - HALF_PAD_HEIGHT:
         paddel1_vel = 0
-        paddel1_pos = WIDTH - HALF_PAD_HEIGHT
+        paddel1_pos = HEIGHT - HALF_PAD_HEIGHT
     
     #stop paddel 2 when reaches to the corner of the canvas
     
@@ -141,9 +145,9 @@ def draw(canvas):
     if paddel2_pos <= HALF_PAD_HEIGHT:
         paddel2_vel = 0
         paddel2_pos = HALF_PAD_HEIGHT
-    if paddel2_pos >= WIDTH - HALF_PAD_HEIGHT:
+    if paddel2_pos >= HEIGHT- HALF_PAD_HEIGHT:
         paddel2_vel = 0
-        paddel2_pos = WIDTH - HALF_PAD_HEIGHT
+        paddel2_pos = HEIGHT - HALF_PAD_HEIGHT
       
     # draw paddel 1
     canvas.draw_line([0, paddel1_pos-PAD_HEIGHT/2],[0,paddel1_pos+ PAD_HEIGHT/2], PAD_WIDTH *2, "white")
@@ -159,27 +163,27 @@ def keydown(key):
     # w and s control the vertical velocity of paddel 1, LEFT PADDEL
     # uparrow and down arrow control the vertical velocity of paddel 2 RIGHT PADDE
     if key == simplegui.KEY_MAP['w']:
-        paddel1_vel += -5
+        paddel1_vel += -10
     if key == simplegui.KEY_MAP['s']:
-        paddel1_vel += 5
+        paddel1_vel += 10
     if key == simplegui.KEY_MAP['up']:
-        paddel2_vel += -5
+        paddel2_vel += -10
     if key == simplegui.KEY_MAP['down']:
-        paddel2_vel += 5
+        paddel2_vel += 10
         
 def keyup(key):
     global paddel1_vel, paddel2_vel, paddel1_pos, paddel2_pos
    
     # w and s control the vertical velocity of paddel 1, LEFT PADDEl
     if key == simplegui.KEY_MAP['w']:
-        paddel1_vel = -1
+        paddel1_vel = -0.6
     if key == simplegui.KEY_MAP['s']:
-        paddel1_vel = 1
+        paddel1_vel = 0.6
     # uparrow and down arrow control the vertical velocity of paddel 2 RIGHT PADDEL
     if key == simplegui.KEY_MAP['up']:
-        paddel2_vel = -1
+        paddel2_vel = -0.6
     if key == simplegui.KEY_MAP['down']:
-        paddel2_vel = 1
+        paddel2_vel = 0.6
         
 # create frame
 frame = simplegui.create_frame("Pong", WIDTH, HEIGHT)
@@ -191,5 +195,7 @@ frame.add_button("Restart Game", new_game)
 # start frame
 new_game()
 spawn_ball(LEFT)
+
+
 frame.start()
 
