@@ -3,7 +3,7 @@
 #Description: Coursera Implementation of PONG Game
 #Run this game in code skulptor
 # Implementation of classic arcade game Pong
-#http://www.codeskulptor.org/#user40_FjVS2gJbJieo7lX.py
+#http://www.codeskulptor.org/#user40_PAGxslkE5y3AL3Z.py
 # Implementation of classic arcade game Pong
 
 # Implementation of classic arcade game Pong
@@ -43,7 +43,7 @@ def spawn_ball(direction):
             
             
     else: #if the ball is at right side reverse it and push upward
-        ball_vel[0] = - (ball_vel[0] +random.randrange (120, 240) / 60.0) - accx
+        ball_vel[0] = - (ball_vel[0] +random.randrange (120, 240) / 60.0) 
         ball_vel[1] = -random.randrange (60, 120) / 60.0  -accy
  
 #define event handlers
